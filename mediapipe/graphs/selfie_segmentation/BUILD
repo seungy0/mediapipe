@@ -25,8 +25,11 @@ cc_library(
     name = "selfie_segmentation_gpu_deps",
     deps = [
         "//mediapipe/calculators/core:flow_limiter_calculator",
-        "//mediapipe/calculators/image:recolor_calculator",
+        "//mediapipe/calculators/image:background_masking_calculator",
         "//mediapipe/modules/selfie_segmentation:selfie_segmentation_gpu",
+        "//mediapipe/gpu:gpu_buffer_to_image_frame_calculator",
+        "//mediapipe/gpu:image_frame_to_gpu_buffer_calculator",
+
     ],
 )
 

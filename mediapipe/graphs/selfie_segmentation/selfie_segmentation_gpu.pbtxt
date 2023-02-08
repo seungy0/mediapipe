@@ -36,17 +36,50 @@ node {
 
 
 # Colors the selfie segmentation with the color specified in the option.
+# node {
+#   calculator: "RecolorCalculator"
+#   input_stream: "IMAGE_GPU:throttled_input_video"
+#   input_stream: "MASK_GPU:segmentation_mask"
+#   output_stream: "IMAGE_GPU:output_video"
+#   node_options: {
+#     [type.googleapis.com/mediapipe.RecolorCalculatorOptions] {
+#       color { r: 0 g: 0 b: 255 }
+#       mask_channel: RED
+#       invert_mask: true
+#       adjust_with_luminance: false
+#     }
+#   }
+# }
+
+# converts the throttled_input_video GPU_BUFFER to IMAGE_FRAME Data type because
+# we want to do CPU operations further
+node{
+  calculator: "GpuBufferToImageFrameCalculator"
+  input_stream: "throttled_input_video"
+  output_stream: "throttled_input_video_cpu"
+}
+
+# converts the portrait_mask GPU_BUFFER to IMAGE_FRAME Data type because
+# we want to do CPU operations further
+node{
+  calculator: "GpuBufferToImageFrameCalculator"
+  input_stream: "segmentation_mask"
+  output_stream: "segmentation_mask_cpu"
+}
+
+# Takes Image and Mask as input and changes the background with given image in
+# the load options
 node {
-  calculator: "RecolorCalculator"
-  input_stream: "IMAGE_GPU:throttled_input_video"
-  input_stream: "MASK_GPU:segmentation_mask"
-  output_stream: "IMAGE_GPU:output_video"
-  node_options: {
-    [type.googleapis.com/mediapipe.RecolorCalculatorOptions] {
-      color { r: 0 g: 0 b: 255 }
-      mask_channel: RED
-      invert_mask: true
-      adjust_with_luminance: false
-    }
-  }
+  calculator: "BackgroundMaskingCalculator"
+  input_stream: "IMAGE_CPU:throttled_input_video_cpu"
+  input_stream: "MASK_CPU:segmentation_mask_cpu"
+  output_stream: "OUTPUT_VIDEO:output_video_cpu"
+}
+
+# Changes Output of the resulting ImageFrame to GpuBuffer, Data type for input
+# stream and Output stream has to be same
+node: {
+  calculator: "ImageFrameToGpuBufferCalculator"
+  input_stream: "output_video_cpu"
+  output_stream: "output_video"
 }

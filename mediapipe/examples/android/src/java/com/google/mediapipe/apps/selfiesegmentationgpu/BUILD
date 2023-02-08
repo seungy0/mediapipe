@@ -38,6 +38,7 @@ android_binary(
     assets = [
         "//mediapipe/graphs/selfie_segmentation:selfie_segmentation_gpu.binarypb",
         "//mediapipe/modules/selfie_segmentation:selfie_segmentation.tflite",
+        "//mediapipe/calculators/image/testdata:buildings.jpg",
     ],
     assets_dir = "",
     manifest = "//mediapipe/examples/android/src/java/com/google/mediapipe/apps/basic:AndroidManifest.xml",

@@ -25,3 +25,6 @@ filegroup(
     ],
     visibility = ["//visibility:public"],
 )
+exports_files(
+    srcs = glob(["**"]),
+)
