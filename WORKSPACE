@@ -544,3 +544,6 @@ external_files()
 
 load("//third_party:wasm_files.bzl", "wasm_files")
 wasm_files()
+
+android_sdk_repository(name = "androidsdk", build_tools_version = "30.0.3")
+android_ndk_repository(name = "androidndk", api_level=21)
