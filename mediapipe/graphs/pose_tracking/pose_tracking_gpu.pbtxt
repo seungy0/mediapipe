@@ -8,6 +8,8 @@ output_stream: "output_video"
 # Pose landmarks. (NormalizedLandmarkList)
 output_stream: "pose_landmarks"
 
+output_stream: "pose"
+
 # Generates side packet to enable segmentation.
 node {
   calculator: "ConstantSidePacketCalculator"
@@ -60,4 +62,10 @@ node {
   input_stream: "DETECTION:pose_detection"
   input_stream: "ROI:roi_from_landmarks"
   output_stream: "IMAGE:output_video"
+}
+# Recognize pose
+node {
+   calculator: "PoseRecognition"
+   input_stream: "LANDMARKS:pose_landmarks"
+   output_stream: "POSE:pose"
 }

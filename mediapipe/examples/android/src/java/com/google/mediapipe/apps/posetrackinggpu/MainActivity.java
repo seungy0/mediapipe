@@ -19,6 +19,7 @@ import android.util.Log;
 import com.google.mediapipe.formats.proto.LandmarkProto.NormalizedLandmark;
 import com.google.mediapipe.formats.proto.LandmarkProto.NormalizedLandmarkList;
 import com.google.mediapipe.framework.PacketGetter;
+import com.google.mediapipe.framework.ProtoUtil;
 import com.google.protobuf.InvalidProtocolBufferException;
 
 /** Main activity of MediaPipe pose tracking app. */
@@ -26,13 +27,18 @@ public class MainActivity extends com.google.mediapipe.apps.basic.MainActivity {
   private static final String TAG = "MainActivity";
 
   private static final String OUTPUT_LANDMARKS_STREAM_NAME = "pose_landmarks";
-
+    private static final String OUTPUT_POSE_STREAM_NAME = "pose";
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
-    // To show verbose logging, run:
-    // adb shell setprop log.tag.MainActivity VERBOSE
+//     To show verbose logging, run:
+//     adb shell setprop log.tag.MainActivity VERBOSE
+    ProtoUtil.registerTypeName(
+            NormalizedLandmarkList.class,
+            "mediapipe.NormalizedLandmarkList"
+    );
+
     if (Log.isLoggable(TAG, Log.VERBOSE)) {
       processor.addPacketCallback(
           OUTPUT_LANDMARKS_STREAM_NAME,
@@ -51,6 +57,25 @@ public class MainActivity extends com.google.mediapipe.apps.basic.MainActivity {
               Log.e(TAG, "Failed to get proto.", exception);
             }
           });
+    }
+    if (Log.isLoggable(TAG, Log.VERBOSE)) {
+      processor.addPacketCallback(
+              OUTPUT_POSE_STREAM_NAME,
+              (packet) -> {
+                Log.v(TAG, "Received pose packet.");
+                try {
+                  Integer pose =
+                          PacketGetter.getInt32(packet);
+                  Log.v(
+                          TAG,
+                          "[TS:"
+                                  + packet.getTimestamp()
+                                  + "] "
+                                  + pose.intValue());
+                } catch (Exception exception) {
+                  Log.e(TAG, "Failed to get pose.", exception);
+                }
+              });
     }
   }
 

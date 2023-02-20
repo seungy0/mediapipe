@@ -5,8 +5,8 @@
   <uses-sdk
       android:minSdkVersion="21"
       android:targetSdkVersion="27" />
-
-  <!-- For using the camera -->
+  <uses-permission android:name="android.permission.ACCESS_SURFACE_FLINGER" />
+    <!-- For using the camera -->
   <uses-permission android:name="android.permission.CAMERA" />
   <uses-feature android:name="android.hardware.camera" />
 

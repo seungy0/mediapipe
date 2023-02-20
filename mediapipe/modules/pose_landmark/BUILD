@@ -191,3 +191,12 @@ mediapipe_simple_subgraph(
         "//mediapipe/calculators/util:rect_transformation_calculator",
     ],
 )
+
+mediapipe_simple_subgraph(
+    name = "pose_recognition",
+    graph = "pose_recognition.pbtxt",
+    register_as = "PoseRecognition",
+    deps = [
+        "//mediapipe/calculators/util:pose_recognition_calculator",
+    ],
+)

@@ -28,6 +28,7 @@ cc_library(
         "//mediapipe/calculators/core:flow_limiter_calculator",
         "//mediapipe/graphs/pose_tracking/subgraphs:pose_renderer_gpu",
         "//mediapipe/modules/pose_landmark:pose_landmark_gpu",
+        "//mediapipe/modules/pose_landmark:pose_recognition",
     ],
 )
 

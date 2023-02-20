@@ -1399,6 +1399,19 @@ cc_library(
     alwayslink = True,
 )
 
+cc_library(
+    name = "pose_recognition_calculator",
+    srcs = ["pose_recognition_calculator.cc"],
+    deps = [
+        "//mediapipe/framework:calculator_framework",
+        "//mediapipe/framework/formats:landmark_cc_proto",
+        "//mediapipe/framework/formats:location_data_cc_proto",
+        "//mediapipe/framework/port:ret_check",
+        "//mediapipe/framework/port:status",
+    ],
+    alwayslink = True,
+)
+
 cc_test(
     name = "inverse_matrix_calculator_test",
     srcs = ["inverse_matrix_calculator_test.cc"],
