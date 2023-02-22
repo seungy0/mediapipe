@@ -71,7 +71,7 @@ public class MainActivity extends com.google.mediapipe.apps.basic.MainActivity {
                           "[TS:"
                                   + packet.getTimestamp()
                                   + "] "
-                                  + pose.intValue());
+                                  + pose);
                 } catch (Exception exception) {
                   Log.e(TAG, "Failed to get pose.", exception);
                 }
