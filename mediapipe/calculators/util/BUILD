@@ -1400,6 +1400,26 @@ cc_library(
 )
 
 cc_library(
+    name = "pose_embedder",
+    srcs = ["pose_embedder.cc"],
+    hdrs = ["pose_embedder.h"],
+    deps = [
+        "//mediapipe/framework/formats:landmark_cc_proto",
+    ],
+    alwayslink = True,
+)
+
+cc_library(
+    name = "pose_classifier",
+    srcs = ["pose_classifier.cc"],
+    hdrs = ["pose_classifier.h"],
+    deps = [
+        "//mediapipe/calculators/util:pose_embedder"
+    ],
+    alwayslink = True,
+)
+
+cc_library(
     name = "pose_recognition_calculator",
     srcs = ["pose_recognition_calculator.cc"],
     deps = [
@@ -1408,9 +1428,11 @@ cc_library(
         "//mediapipe/framework/formats:location_data_cc_proto",
         "//mediapipe/framework/port:ret_check",
         "//mediapipe/framework/port:status",
+        "//mediapipe/calculators/util:pose_classifier"
     ],
     alwayslink = True,
 )
+
 
 cc_test(
     name = "inverse_matrix_calculator_test",
